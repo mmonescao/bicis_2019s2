@@ -1,0 +1,98 @@
+import bicis.*
+import accesorios.*
+import depositos.*
+
+test "deposito" {
+	const deposito1 = new Deposito()
+	const bici1 = new Bici() 
+	bici1.rodado(28)
+	bici1.marca(olmo)
+	bici1.largo(150)
+	bici1.agregarAccesorio(farolito)
+	
+	const bici2 = new Bici() 
+	bici2.rodado(26)
+	bici2.marca(legnano)
+	bici2.largo(110)
+	canasto.volumen(8)
+	morral.largo(21)
+	morral.modificarOjoDeGato()
+	bici2.agregarAccesorio(farolito)
+	bici2.agregarAccesorio(canasto)
+	bici2.agregarAccesorio(morral)
+	
+	const bici3 = new Bici() 
+	bici3.rodado(20)
+	bici3.marca(legnano)
+	bici3.largo(90)
+	morral.largo(6)
+	morral.modificarOjoDeGato()
+	bici3.agregarAccesorio(morral)
+	
+	deposito1.agregarBici(bici1)
+	deposito1.agregarBici(bici2)
+	deposito1.agregarBici(bici3)
+	
+	assert.equals([bici1,bici2], deposito1.bicisRapidas())
+	assert.equals(#{olmo, legnano}, deposito1.marcas())
+	assert.notThat(deposito1.nocturno())
+	assert.that(deposito1.puedeLlevar(10))
+	assert.notThat(deposito1.puedeLlevar(50))
+	assert.equals(olmo, deposito1.marcaDeBiciMasRapida())
+	assert.equals(0, deposito1.cantidadDeBicisSinAccesorios())
+	assert.equals([], deposito1.encontrarCompanieras(bici3))
+	assert.notThat(deposito1.tieneBicisCompanieras())
+	
+	const deposito2 = new Deposito()
+	const biciLarga1 = new Bici()
+	const biciLarga2 = new Bici()
+	biciLarga1.largo(180)
+	biciLarga1.agregarAccesorio(morral)
+	morral.largo(90)
+	biciLarga2.largo(175)
+	biciLarga2.agregarAccesorio(canasto)
+	canasto.volumen(20)
+	deposito2.agregarBici(bici1)
+	deposito2.agregarBici(bici2)
+	deposito1.agregarBici(biciLarga1)
+	deposito1.agregarBici(biciLarga2)
+	
+	assert.equals(70, deposito1.cargaTotalBicisLargas())
+	assert.that(deposito2.nocturno())
+	
+	const deposito3 = new Deposito()
+	
+	const bici4 = new Bici() 
+	bici4.marca(olmo)
+	bici4.largo(115)
+	
+	const bici5 = new Bici() 
+	bici5.marca(olmo)
+	bici5.largo(120)
+	morral.modificarOjoDeGato()
+	bici5.agregarAccesorio(morral)
+	
+	const bici6 = new Bici() 
+	bici6.agregarAccesorio(farolito)
+	
+	const bici7 = new Bici() 
+	bici7.marca(legnano)
+	bici7.largo(115)
+	
+	const bici8 = new Bici() 
+	bici8.marca(legnano)
+	bici8.largo(120)
+	
+	
+	deposito3.agregarBici(bici4)
+	deposito3.agregarBici(bici5)
+	deposito3.agregarBici(bici6)
+	deposito3.agregarBici(bici7)
+	deposito3.agregarBici(bici8)
+	
+	assert.equals([bici4], deposito3.encontrarCompanieras(bici5))
+	assert.equals([#{bici7,bici8},#{bici4,bici5}], deposito3.parejaDeCompanieras())/*Encuentra lo mismo pero me lo toma como error,
+	probe varias maneras y la verdad no le encontre la vuelta. No cree una clase xq cada instancia deberia tener un nombre propio
+	y no sabia como hacerlo automaticamente*/
+	assert.notThat(deposito3.seHizoLaLuz())
+}
